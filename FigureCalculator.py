@@ -26,99 +26,69 @@ def schyot(x1, y1, x2, y2, x3, y3, x4, y4):
     S4 = (1/2)*(a4*h4)
 #Выделяем и считаем частные случаи
     if y1 < y2 < y3 and x1 < x2 < x3:
-        z1 = x11 - x2
-        w1 = y11 - y2
-        S1d = z1*w1
+        z1 = x1 - x2
+        w1 = y3 - y2
+        S1d = abs(z1*w1)
     else:
         S1d = 0
     if y2 < y3 < y1 and x1 < x2 < x3:
         z2 = x3 - x2
         w2 = y3 - y1
-        S2d = z2*w2
+        S2d = abs(z2*w2)
     else:
         S2d = 0
     if x3 < x4 < x2 and y2 > y3 > y4:
         z3 = x2 - x4
         w3 = y3 - y4
-        S3d = z3*w3
+        S3d = abs(z3*w3)
     else:
         S3d = 0
     if y4 > y1 > y3 and x1 < x4 < x3:
-        z4 = x4 - x11
+        z4 = x4 - x1
         w4 = y1 - y11
-        S4d = z4*w4
+        S4d = abs(z4*w4)
     else:
         S4d = 0
 
     if y2 < y1 < y3 and x1 < x2 < x3:
         z2s = x2 - x1
         w2s = y3 - y1
-        S2s = z2s*w2s
+        S2s = abs(z2s*w2s)
     else:
         S2s = 0
     if x3 < x2 < x4 and y2 > y3 > y4:
         z3s = x4 - x2
         w3s = y2 - y3
-        S3s = z3s*w3s
+        S3s = abs(z3s*w3s)
     else:
         S3s = 0
     if y4 > y3 > y1 and x1 < x4 < x3:
         z4s = x3 - x4
         w4s = y3 - y1
-        S4s = z4s*w4s
+        S4s = abs(z4s*w4s)
     else:
         S4s = 0
     if y1 < y12 > y2 and not x1 == x2:
-        s1 = (y12 - max(y1, y2))*(x2 - x1)
-        if s1 < 0:
-            s1 = 0
+        s1 = abs((y12 - max(y1, y2))*(x2 - x1))
     else:
         s1 = 0
     if y2 < y12 > y3 and x1 < x2 < x3:
-        s2 = (y12 - max(y2, y3))*(x3 - x2)
-        if s2 < 0:
-            s2 = 0
+        s2 = abs((y12 - max(y2, y3))*(x3 - x2))
     else:
         s2 = 0
     if x2 < x12 > x3 and y2 > y3:
-        s3 = (y12 - max(x3, x2))*(y2 - y3)
-        if s3 < 0:
-            s3 = 0
+        s3 = abs((y12 - max(x3, x2))*(y2 - y3))
     else:
         s3 = 0
     if y3 > y11 < y4 and x4 < x3:
-        s4 = (min(y3, y4) - y11)*(x3 - x4)
-        if s4 < 0:
-            s4 = 0
+        s4 = abs((min(y3, y4) - y11)*(x3 - x4))
     else:
         s4 = 0
     if x3 > x11 < x4 and y3 > y1 > y4:
-        s5 = (min(x3, x4) - x11)*(y4 - y3)
-        if s5 < 0:
-            s5 = 0
+        s5 = abs((min(x3, x4) - x11)*(y4 - y3))
     else:
         s5 = 0
-#Выделяем прямоугольники на углах участка
-    if x1 < x2 < x3 and y1 < y2 < y3:
-        S2p1 = (x12 - x2)*(y12 - y2)
-    else:
-        S2p1 = 0
-    if x4 > x3 > x2 and y4 < y3 < y2:
-        S3p1 = (x12 - x3)*(y12 - y3)
-    else:
-        S3p1 = 0
-    if x4 < x3 < x2 and y4 < y3 < y2:
-        S3p2 = (x12 - x3)*(y12 - y3)
-    else:
-        S3p2 = 0
-    if x1 < x4 < x3 and y1 < y4 < y3:
-        S4p1 = (x12 - x4)*(y4 - y11)
-    else:
-        S4p1 = 0
-    if x4 > x3 > x11 and y4 > y3 > y11:
-        S1p1 = (x3 - x11)*(y3 - y11)
-    else:
-        S1p1 = 0
+
 #Находим площадь и периметр искомого четырёхугольника
     A1 = math.sqrt(a1**2 + h1**2)
     A2 = math.sqrt(a2**2 + h2**2)
@@ -131,11 +101,24 @@ def schyot(x1, y1, x2, y2, x3, y3, x4, y4):
     if x3 == x2 and y3 == y2:
         if x1 == x4 and y1 == y4:
             Pfigure /= 2
-    Sfigure = S - S1 - S2 - S3 - S4 - S1p1 - S2p1 - S3p1 - S3p2 - S4p1 - S1d - S2d - S3d - S4d - S2s - S3s - S4s - s1 - s2 - s3 - s4 - s5
+    Sfigure = S - S1 - S2 - S3 - S4 - S1d - S2d - S3d - S4d - S2s - S3s - S4s - s1 - s2 - s3 - s4 - s5
     return Sfigure, Pfigure
-import PySimpleGUI as sg
 import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import PySimpleGUI as sg
+import matplotlib
+matplotlib.use('TkAgg')
 sg.theme('DarkAmber')
+fig = matplotlib.figure.Figure(figsize=(4, 3), dpi=100)
+t = np.arange(0, 3, .01)
+
+def draw_figure(canvas, figure):
+   tkcanvas = FigureCanvasTkAgg(figure, canvas)
+   tkcanvas.draw()
+   tkcanvas.get_tk_widget().pack(side='top', fill='both', expand=1)
+   return tkcanvas
+
 def graphics1():
 #После нажатия на кнопку запуска выволится окно с вводом данных
     layout1 = [[sg.Text('Пожалуйста, не закрывайте это окно во время работы. Это приведёт к остановке программы.', size=(100, 1), key='-text-', font='Helvetica 16')],
@@ -164,12 +147,15 @@ def graphics1():
     return x1, x2, x3, x4, y1, y2, y3, y4
 
 def graphics2(Sfigure, Pfigure):
+#Выводим результат счёта на экран
     layout3 = [[sg.Text('Площадь новой фигуры равна:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
               [sg.Text(Sfigure, size = (30,1), key = '-text-', font = 'Helvetica 16')],
               [sg.Text('Периметр новой фигуры равен:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
               [sg.Text(Pfigure, size = (30,1), key = '-text-', font = 'Helvetica 16')],
-              [sg.Button('Добавить фигуру', enable_events=True, key='-QW-', font='Helvetica 16')]]
-    window3 = sg.Window('Проект', layout3, size=(400, 200))
+              [sg.Button('Добавить фигуру', enable_events=True, key='-QW-', font='Helvetica 16')],
+              [sg.Canvas(key='-CANVAS-')]]
+    window3 = sg.Window('Проект', layout3, size=(700, 200), finalize=True)
+    tkcanvas = draw_figure(window3['-CANVAS-'].TKCanvas, fig)
     event, values = window3.read()
     
 #Создаём кнопку запуска программы
@@ -192,16 +178,16 @@ while True:
 #Создаём визуализацию фигуры
         x1 = [x1, x2, x3, x4, x1]
         y1 = [y1, y2, y3, y4, y1]
-        plt.grid()
-        plot1 = plt.plot(x1, y1)
+        fig.add_subplot(111).plot(x1, y1)
 #Выводим площадь фигуры и её визуализацию
         layout2 = [[sg.Text('Площадь фигуры равна:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
                   [sg.Text(float(Sfigure), size = (30,1), key = '-text-', font = 'Helvetica 16')],
                   [sg.Text('Периметр фигуры равен:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
                   [sg.Text(float(Pfigure), size = (30,1), key = '-text-', font = 'Helvetica 16')],
-                  [sg.Button('Добавить фигуру', enable_events=True, key='-Z-', font='Helvetica 16')]],
-        plt.show()
-        window2 = sg.Window('Проект', layout2, size=(450, 300))
+                  [sg.Button('Добавить фигуру', enable_events=True, key='-Z-', font='Helvetica 16')],
+                  [sg.Canvas(key='-CANVAS-')]],
+        window2 = sg.Window('Проект', layout2, size=(450, 600), finalize=True)
+        tkcanvas = draw_figure(window2['-CANVAS-'].TKCanvas, fig)
         event, values = window2.read()
 #Введение новой фигуры
     if event == '-Z-':
