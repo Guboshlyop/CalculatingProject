@@ -9,7 +9,7 @@ def schyot(x1, y1, x2, y2, x3, y3, x4, y4):
     y11 = min(y1, y2, y3, y4)
     y12 = max(y1, y2, y3, y4)
 #Найдём его площадь
-    S = (x12-x11)*(y12-y11)
+    S = abs((x12-x11)*(y12-y11))
 #При каждой из сторон фигуры выделим прямоугольные треугольники
     h1 = abs(y2 - y1)
     a1 = abs(x2 - x1)
@@ -49,7 +49,6 @@ def schyot(x1, y1, x2, y2, x3, y3, x4, y4):
         S4d = abs(z4*w4)
     else:
         S4d = 0
-
     if y2 < y1 < y3 and x1 < x2 < x3:
         z2s = x2 - x1
         w2s = y3 - y1
@@ -68,27 +67,28 @@ def schyot(x1, y1, x2, y2, x3, y3, x4, y4):
         S4s = abs(z4s*w4s)
     else:
         S4s = 0
-    if y1 < y12 > y2 and not x1 == x2:
-        s1 = abs((y12 - max(y1, y2))*(x2 - x1))
+    if y1 < y12 > y2:
+        s1 = abs((y12 - max(y2, y1))*(x1 - x2))
     else:
         s1 = 0
-    if y2 < y12 > y3 and x1 < x2 < x3:
+    if y2 < y12 > y3:
         s2 = abs((y12 - max(y2, y3))*(x3 - x2))
+        if y2 > y1:
+            s2 += abs((x11 - x2)*(y12 - y3))
     else:
         s2 = 0
-    if x2 < x12 > x3 and y2 > y3:
-        s3 = abs((y12 - max(x3, x2))*(y2 - y3))
+    if x2 < x12 > x3:
+        s3 = abs((x12 - max(x3, x2))*(y2 - y3))
     else:
         s3 = 0
-    if y3 > y11 < y4 and x4 < x3:
+    if y3 > y11 < y4:
         s4 = abs((min(y3, y4) - y11)*(x3 - x4))
     else:
         s4 = 0
-    if x3 > x11 < x4 and y3 > y1 > y4:
-        s5 = abs((min(x3, x4) - x11)*(y4 - y3))
+    if y4 > y11 < y1:
+        s5 = abs((min(y4, y1) - y11)*(x4 - x1))
     else:
         s5 = 0
-
 #Находим площадь и периметр искомого четырёхугольника
     A1 = math.sqrt(a1**2 + h1**2)
     A2 = math.sqrt(a2**2 + h2**2)
@@ -101,17 +101,15 @@ def schyot(x1, y1, x2, y2, x3, y3, x4, y4):
     if x3 == x2 and y3 == y2:
         if x1 == x4 and y1 == y4:
             Pfigure /= 2
-    Sfigure = S - S1 - S2 - S3 - S4 - S1d - S2d - S3d - S4d - S2s - S3s - S4s - s1 - s2 - s3 - s4 - s5
+    Sfigure = abs(S - S1 - S2 - S3 - S4 - S1d - S2d - S3d - S4d - S2s - S3s - S4s - s2 - s3 - s4 - s5)
     return Sfigure, Pfigure
 import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import PySimpleGUI as sg
 import matplotlib
 matplotlib.use('TkAgg')
 sg.theme('DarkAmber')
 fig = matplotlib.figure.Figure(figsize=(4, 3), dpi=100)
-t = np.arange(0, 3, .01)
 
 def draw_figure(canvas, figure):
    tkcanvas = FigureCanvasTkAgg(figure, canvas)
@@ -132,7 +130,7 @@ def graphics1():
               [sg.Text('x4', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x4-', do_not_clear=True)],
               [sg.Text('y4', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y4-', do_not_clear=True)],
               [sg.Button('Рассчитать', enable_events=True, key='-G-', font='Helvetica 16')]],
-    window1 = sg.Window('Проект', layout1, size=(1440,720))
+    window1 = sg.Window('Ввод', layout1, size=(1440,720))
     event, values = window1.read()
     if event == '-G-':
 #Выносим данные из ячеек ввода
@@ -154,7 +152,7 @@ def graphics2(Sfigure, Pfigure):
               [sg.Text(Pfigure, size = (30,1), key = '-text-', font = 'Helvetica 16')],
               [sg.Button('Добавить фигуру', enable_events=True, key='-QW-', font='Helvetica 16')],
               [sg.Canvas(key='-CANVAS-')]]
-    window3 = sg.Window('Проект', layout3, size=(700, 200), finalize=True)
+    window3 = sg.Window('Результат', layout3, size=(400, 500), finalize=True)
     tkcanvas = draw_figure(window3['-CANVAS-'].TKCanvas, fig)
     event, values = window3.read()
     
@@ -165,7 +163,7 @@ layout = [[sg.Text('Функции программы:', size = (30,1), key = '-
           [sg.Text('2. Чтобы найти площадь и периметр объединения или пересечения, представьте объединение или пересечение в виде многоугольника и действуйте по аналогии с п. 1. Чтобы найти координаты пересечений фигур, наведите на пересечения фигур курсором мыши на окне с чертежом. ', size = (30,6), key = '-text-', font = 'Helvetica 16')],
           [sg.Text('3. Чтобы создать треугольник, представьте его в виде четырёхугольника с 1 развёрнутым углом (Углом равным 180 градусам).', size = (30,5), key = '-text-', font = 'Helvetica 16')],
           [sg.Button('Старт программы', enable_events=True, key='-FUNCTION-', font='Helvetica 16')]],
-window = sg.Window('Проект', layout, size=(400,630))
+window = sg.Window('Старт', layout, size=(400,630))
 event, values = window.read()
 while True:
 #Если закрыть окно с этой кнопкой, программа прекратит работу
@@ -173,6 +171,7 @@ while True:
         break
 #Производим процедуру счёта
     if event == '-FUNCTION-':
+        sg.window.closed()     #!!!!!!!!!!!!!!!!!!!
         x1, x2, x3, x4, y1, y2, y3, y4 = graphics1()
         Sfigure, Pfigure = schyot(x1, y1, x2, y2, x3, y3, x4, y4)
 #Создаём визуализацию фигуры
@@ -186,16 +185,17 @@ while True:
                   [sg.Text(float(Pfigure), size = (30,1), key = '-text-', font = 'Helvetica 16')],
                   [sg.Button('Добавить фигуру', enable_events=True, key='-Z-', font='Helvetica 16')],
                   [sg.Canvas(key='-CANVAS-')]],
-        window2 = sg.Window('Проект', layout2, size=(450, 600), finalize=True)
+        window2 = sg.Window('Результат', layout2, size=(400, 500), finalize=True)
         tkcanvas = draw_figure(window2['-CANVAS-'].TKCanvas, fig)
         event, values = window2.read()
 #Введение новой фигуры
     if event == '-Z-':
+        sg.window1.closed()    #!!!!!!!!!!!!!!!!!!!!!!!!
         while True:
             x1, x2, x3, x4, y1, y2, y3, y4 = graphics1()
             Sfigure, Pfigure = schyot(x1, y1, x2, y2, x3, y3, x4, y4)
+            fig = matplotlib.figure.Figure(figsize=(4, 3), dpi=100)
             x1 = [x1, x2, x3, x4, x1]
             y1 = [y1, y2, y3, y4, y1]
-            plot1 += plt.plot(x1, y1)
-            plt.show()
+            fig.add_subplot(111).plot(x1, y1)
             graphics2(Sfigure, Pfigure)
