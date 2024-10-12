@@ -1,5 +1,7 @@
 #Программа не высчитывает пересечения и объединения фигур
 #Требуются библиотеки PySimpleGUI и matplotlib
+counterx = 400
+countery = 0
 import math
 def schyot(x1, y1, x2, y2, x3, y3, x4, y4):
 #Любую фигуру можно представить в виде прямоугольников и треугольников
@@ -130,7 +132,7 @@ def graphics1():
               [sg.Text('x4', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x4-', do_not_clear=True)],
               [sg.Text('y4', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y4-', do_not_clear=True)],
               [sg.Button('Рассчитать', enable_events=True, key='-G-', font='Helvetica 16')]],
-    window1 = sg.Window('Ввод', layout1, size=(1440,720))
+    window1 = sg.Window('Ввод', layout1, size=(1440,720), location=(475, 290))
     event, values = window1.read()
     if event == '-G-':
 #Выносим данные из ячеек ввода
@@ -142,9 +144,10 @@ def graphics1():
         y3 = float(values['-y3-'])
         x4 = float(values['-x4-'])
         y4 = float(values['-y4-'])
+        window1.close()
     return x1, x2, x3, x4, y1, y2, y3, y4
 
-def graphics2(Sfigure, Pfigure):
+def graphics2(Sfigure, Pfigure, counterx, countery):
 #Выводим результат счёта на экран
     layout3 = [[sg.Text('Площадь новой фигуры равна:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
               [sg.Text(Sfigure, size = (30,1), key = '-text-', font = 'Helvetica 16')],
@@ -152,7 +155,7 @@ def graphics2(Sfigure, Pfigure):
               [sg.Text(Pfigure, size = (30,1), key = '-text-', font = 'Helvetica 16')],
               [sg.Button('Добавить фигуру', enable_events=True, key='-QW-', font='Helvetica 16')],
               [sg.Canvas(key='-CANVAS-')]]
-    window3 = sg.Window('Результат', layout3, size=(400, 500), finalize=True)
+    window3 = sg.Window('Результат', layout3, size=(400, 500), location=(counterx, countery), finalize=True)
     tkcanvas = draw_figure(window3['-CANVAS-'].TKCanvas, fig)
     event, values = window3.read()
     
@@ -160,10 +163,10 @@ def graphics2(Sfigure, Pfigure):
 layout = [[sg.Text('Функции программы:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
           [sg.Text('Программа расчитана на создание четырёхугольников разных форм и рассчёт их площадей и периметров, однако с её помощью можно создавать много чего ещё:', size = (30,5), key = '-text-', font = 'Helvetica 16')],
           [sg.Text('1. Чтобы добавить многоугольник, отличный от четырёхугольника, представьте его в виде нескольких четырёхугольников с общей стороной.', size = (30,5), key = '-text-', font = 'Helvetica 16')],
-          [sg.Text('2. Чтобы найти площадь и периметр объединения или пересечения, представьте объединение или пересечение в виде многоугольника и действуйте по аналогии с п. 1. Чтобы найти координаты пересечений фигур, наведите на пересечения фигур курсором мыши на окне с чертежом. ', size = (30,6), key = '-text-', font = 'Helvetica 16')],
+          [sg.Text('2. Чтобы найти площадь и периметр объединения или пересечения, представьте объединение или пересечение в виде многоугольника и действуйте по аналогии с п. 1. Чтобы найти координаты пересечений фигур, наведите на пересечения фигур курсором мыши на окне с чертежом.', size = (30,9), key = '-text-', font = 'Helvetica 16')],
           [sg.Text('3. Чтобы создать треугольник, представьте его в виде четырёхугольника с 1 развёрнутым углом (Углом равным 180 градусам).', size = (30,5), key = '-text-', font = 'Helvetica 16')],
           [sg.Button('Старт программы', enable_events=True, key='-FUNCTION-', font='Helvetica 16')]],
-window = sg.Window('Старт', layout, size=(400,630))
+window = sg.Window('Старт', layout, size=(400,700))
 event, values = window.read()
 while True:
 #Если закрыть окно с этой кнопкой, программа прекратит работу
@@ -171,7 +174,7 @@ while True:
         break
 #Производим процедуру счёта
     if event == '-FUNCTION-':
-        sg.window.closed()     #!!!!!!!!!!!!!!!!!!!
+        window.close()
         x1, x2, x3, x4, y1, y2, y3, y4 = graphics1()
         Sfigure, Pfigure = schyot(x1, y1, x2, y2, x3, y3, x4, y4)
 #Создаём визуализацию фигуры
@@ -185,12 +188,11 @@ while True:
                   [sg.Text(float(Pfigure), size = (30,1), key = '-text-', font = 'Helvetica 16')],
                   [sg.Button('Добавить фигуру', enable_events=True, key='-Z-', font='Helvetica 16')],
                   [sg.Canvas(key='-CANVAS-')]],
-        window2 = sg.Window('Результат', layout2, size=(400, 500), finalize=True)
+        window2 = sg.Window('Результат', layout2, size=(400, 500), location=(0, 0), finalize=True)
         tkcanvas = draw_figure(window2['-CANVAS-'].TKCanvas, fig)
         event, values = window2.read()
 #Введение новой фигуры
     if event == '-Z-':
-        sg.window1.closed()    #!!!!!!!!!!!!!!!!!!!!!!!!
         while True:
             x1, x2, x3, x4, y1, y2, y3, y4 = graphics1()
             Sfigure, Pfigure = schyot(x1, y1, x2, y2, x3, y3, x4, y4)
@@ -198,4 +200,10 @@ while True:
             x1 = [x1, x2, x3, x4, x1]
             y1 = [y1, y2, y3, y4, y1]
             fig.add_subplot(111).plot(x1, y1)
-            graphics2(Sfigure, Pfigure)
+            graphics2(Sfigure, Pfigure, counterx, countery)
+            counterx += 400
+            if counterx == 2000:
+                counterx = 0
+                countery = 500
+            if countery == 500 and counterx == 2000:
+                countery = 0
