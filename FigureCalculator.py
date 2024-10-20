@@ -134,6 +134,7 @@ def graphics1():
               [sg.Button('Рассчитать', enable_events=True, key='-G-', font='Helvetica 16')]],
     window1 = sg.Window('Ввод', layout1, size=(1440,720), location=(475, 290))
     event, values = window1.read()
+    
     if event == '-G-':
 #Выносим данные из ячеек ввода
         x1 = float(values['-x1-'])
@@ -153,11 +154,14 @@ def graphics2(Sfigure, Pfigure, counterx, countery):
               [sg.Text(Sfigure, size = (30,1), key = '-text-', font = 'Helvetica 16')],
               [sg.Text('Периметр новой фигуры равен:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
               [sg.Text(Pfigure, size = (30,1), key = '-text-', font = 'Helvetica 16')],
-              [sg.Button('Добавить фигуру', enable_events=True, key='-QW-', font='Helvetica 16')],
+              [sg.Button('Добавить фигуру', enable_events=True, key='-QW-', font='Helvetica 16')], 
               [sg.Canvas(key='-CANVAS-')]]
+    layoutgr = [[sg.Button('Показать все фигуры', enable_events=True, key='-SHOW-', font='Helvetica 16')]]
     window3 = sg.Window('Результат', layout3, size=(400, 500), location=(counterx, countery), finalize=True)
+    window4 = sg.Window('', layoutgr, size=(400, 40), location=(counterx, countery + 530), finalize=True)
     tkcanvas = draw_figure(window3['-CANVAS-'].TKCanvas, fig)
-    event, values = window3.read()
+    event, values = window3.read()     
+    event, values = window4.read()
     
 #Создаём кнопку запуска программы
 layout = [[sg.Text('Функции программы:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
@@ -180,6 +184,7 @@ while True:
 #Создаём визуализацию фигуры
         x1 = [x1, x2, x3, x4, x1]
         y1 = [y1, y2, y3, y4, y1]
+        plot1 = plt.plot(x1, y1)
         fig.add_subplot(111).plot(x1, y1)
 #Выводим площадь фигуры и её визуализацию
         layout2 = [[sg.Text('Площадь фигуры равна:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
@@ -199,8 +204,12 @@ while True:
             fig = matplotlib.figure.Figure(figsize=(4, 3), dpi=100)
             x1 = [x1, x2, x3, x4, x1]
             y1 = [y1, y2, y3, y4, y1]
+            plot1 += plt.plot(x1, y1)
             fig.add_subplot(111).plot(x1, y1)
             graphics2(Sfigure, Pfigure, counterx, countery)
+            if event == '-SHOW-':
+                plt.grid
+                plt.show
             counterx += 400
             if counterx == 2000:
                 counterx = 0
