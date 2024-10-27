@@ -198,10 +198,10 @@ while True:
         while True:
             x1, x2, x3, x4, y1, y2, y3, y4 = graphics1()
             Sfigure, Pfigure = schyot(x1, y1, x2, y2, x3, y3, x4, y4)
+            fig = matplotlib.figure.Figure(figsize=(4, 3), dpi=100)
+            fig.add_subplot(111).plot(x1p, y1p, '--', [x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1])
             x1p += [x1, x2, x3, x4, x1]
             y1p += [y1, y2, y3, y4, y1]
-            fig = matplotlib.figure.Figure(figsize=(4, 3), dpi=100)
-            fig.add_subplot(111).plot(x1p, y1p),plot
             graphics2(Sfigure, Pfigure, counterx, countery)
             counterx += 400
             if counterx == 2000:
