@@ -219,8 +219,11 @@ while True:
         while True:
             exc = 0
             x1, x2, x3, x4, y1, y2, y3, y4, event = graphics12(x1, x2, x3, x4, y1, y2, y3, y4, x1p, y1p, x2p, y2p)
-            if event == '-SHOWPLOT-':
-                x1, x2, x3, x4, y1, y2, y3, y4, event = graphics12(x1, x2, x3, x4, y1, y2, y3, y4, x1p, y1p, x2p, y2p)
+            while event != '-G-':
+                if event == '-SHOWPLOT-':
+                    x1, x2, x3, x4, y1, y2, y3, y4, event = graphics12(x1, x2, x3, x4, y1, y2, y3, y4, x1p, y1p, x2p, y2p)
+                if event == '-G-':
+                    break
             Sfigure, Pfigure = schyot(x1, y1, x2, y2, x3, y3, x4, y4)
             fig = matplotlib.figure.Figure(figsize=(4, 3), dpi=100)
             fig.add_subplot(111).plot(x1p, y1p, ':k', x2p, y2p, '-w', [x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], '-b')
