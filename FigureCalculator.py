@@ -1,4 +1,3 @@
-# Программа не высчитывает пересечения и объединения фигур
 # Требуются библиотеки PySimpleGUI и matplotlib
 counterx = 400
 countery = 0
@@ -120,7 +119,7 @@ def graphics1():
               [sg.Button('Рассчитать', enable_events=True, key='-G-', font='Helvetica 16')]],
     window1 = sg.Window('Ввод', layout1, size=(1440,720), location=(475, 290))
     event, values = window1.read()
-    
+
     if event == '-G-':
 # Выносим данные из ячеек ввода
         x1 = float(values['-x1-'])
@@ -133,6 +132,41 @@ def graphics1():
         y4 = float(values['-y4-'])
         window1.close()
     return x1, x2, x3, x4, y1, y2, y3, y4
+
+def graphics12(x1, x2, x3, x4, y1, y2, y3, y4, x1p, y1p, x2p, y2p):
+# После нажатия на кнопку запуска выволится окно с вводом данных
+    layout1 = [[sg.Text('Введите упорядоченные относительные координаты углов (первая вершина левая нижняя, обход по часовой стрелке):', size=(100, 1), key='-text-', font='Helvetica 16')], 
+              [sg.Text('x1', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x1-', do_not_clear=True)],
+              [sg.Text('y1', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y1-', do_not_clear=True)],
+              [sg.Text('x2', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x2-', do_not_clear=True)],
+              [sg.Text('y2', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y2-', do_not_clear=True)],
+              [sg.Text('x3', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x3-', do_not_clear=True)],
+              [sg.Text('y3', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y3-', do_not_clear=True)],
+              [sg.Text('x4', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x4-', do_not_clear=True)],
+              [sg.Text('y4', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y4-', do_not_clear=True)],
+              [sg.Button('Рассчитать', enable_events=True, key='-G-', font='Helvetica 16')],
+              [sg.Button('Показать имеющиеся фигуры', enable_events=True, key='-SHOWPLOT-', font='Helvetica 16')]],
+    window1 = sg.Window('Ввод', layout1, size=(1440,720), location=(475, 290))
+    event, values = window1.read()
+        
+    if event == '-G-':
+# Выносим данные из ячеек ввода
+        x1 = float(values['-x1-'])
+        y1 = float(values['-y1-'])
+        x2 = float(values['-x2-'])
+        y2 = float(values['-y2-'])
+        x3 = float(values['-x3-'])
+        y3 = float(values['-y3-'])
+        x4 = float(values['-x4-'])
+        y4 = float(values['-y4-'])
+        window1.close()
+    else:
+        if event == '-SHOWPLOT-':
+            window1.close()
+            plot1 = plt.plot(x1p, y1p, ':k', x2p, y2p, '-w', [x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], '-b')
+            plt.show()
+            
+    return x1, x2, x3, x4, y1, y2, y3, y4, event
 
 def graphics2(Sfigure, Pfigure, counterx, countery):
 # Выводим результат счёта на экран
@@ -153,7 +187,7 @@ layout = [[sg.Text('Функции программы:', size = (30,1), key = '-
           [sg.Text('2. Чтобы найти площадь и периметр объединения или пересечения, представьте объединение или пересечение в виде многоугольника и действуйте по аналогии с п. 1.', size = (30,5), key = '-text-', font = 'Helvetica 16')],
           [sg.Text('3. Чтобы создать треугольник, представьте его в виде четырёхугольника с 1 развёрнутым углом (Углом равным 180 градусам).', size = (30,5), key = '-text-', font = 'Helvetica 16')],
           [sg.Button('Старт программы', enable_events=True, key='-FUNCTION-', font='Helvetica 16')]],
-window = sg.Window('Старт', layout, size=(400,700))
+window = sg.Window('Старт', layout, size=(400,600))
 event, values = window.read()
 while True:
 # Если закрыть окно с этой кнопкой, программа прекратит работу
@@ -184,7 +218,9 @@ while True:
     if event == '-Z-':
         while True:
             exc = 0
-            x1, x2, x3, x4, y1, y2, y3, y4 = graphics1()
+            x1, x2, x3, x4, y1, y2, y3, y4, event = graphics12(x1, x2, x3, x4, y1, y2, y3, y4, x1p, y1p, x2p, y2p)
+            if event == '-SHOWPLOT-':
+                x1, x2, x3, x4, y1, y2, y3, y4, event = graphics12(x1, x2, x3, x4, y1, y2, y3, y4, x1p, y1p, x2p, y2p)
             Sfigure, Pfigure = schyot(x1, y1, x2, y2, x3, y3, x4, y4)
             fig = matplotlib.figure.Figure(figsize=(4, 3), dpi=100)
             fig.add_subplot(111).plot(x1p, y1p, ':k', x2p, y2p, '-w', [x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], '-b')
