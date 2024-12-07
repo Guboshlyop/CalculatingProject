@@ -1,9 +1,5 @@
 # Требуются библиотеки PySimpleGUI и matplotlib
-counterx = 400
-countery = 0
-i = 4
-j = 2
-h = 1
+counterx, countery, i, j, h = 400, 0, 4, 2, 1
 import math
 def schyot(x1, y1, x2, y2, x3, y3, x4, y4):
 # Любую фигуру можно представить в виде прямоугольников и треугольников
@@ -23,7 +19,7 @@ def schyot(x1, y1, x2, y2, x3, y3, x4, y4):
     a3 = abs(x3 - x4)
     h4 = abs(y4 - y1)
     a4 = abs(x4 - x1)
-# Следом найдём их площадь
+# Следом вычтем их площадь из площади основного прямоугольника
     S -= (1/2)*(a1*h1)
     S -= (1/2)*(a2*h2)
     S -= (1/2)*(a3*h3)
@@ -161,9 +157,11 @@ def graphics12(x1, x2, x3, x4, y1, y2, y3, y4, x1p, y1p, x2p, y2p):
         y4 = float(values['-y4-'])
         window1.close()
     else:
+        # Создаём визуализацию всех фигур сразу
         if event == '-SHOWPLOT-':
             window1.close()
             plot1 = plt.plot(x1p, y1p, ':k', x2p, y2p, '-w', [x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], '-b')
+            plt.grid()
             plt.show()
             
     return x1, x2, x3, x4, y1, y2, y3, y4, event
@@ -226,7 +224,7 @@ while True:
                     break
             Sfigure, Pfigure = schyot(x1, y1, x2, y2, x3, y3, x4, y4)
             fig = matplotlib.figure.Figure(figsize=(4, 3), dpi=100)
-            fig.add_subplot(111).plot(x1p, y1p, ':k', x2p, y2p, '-w', [x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], '-b')
+            fig.add_subplot(111).plot(x1p, y1p, ':k', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', [x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], '-b')
             x1p += [x1, x2, x3, x4, x1]
             y1p += [y1, y2, y3, y4, y1]
             graphics2(Sfigure, Pfigure, counterx, countery)
