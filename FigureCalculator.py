@@ -92,7 +92,8 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import PySimpleGUI as sg
 matplotlib.use('TkAgg')
-sg.theme('DarkAmber')
+themen = 'DarkAmber'
+sg.theme(themen)
 fig = matplotlib.figure.Figure(figsize=(4, 3), dpi=100)
 
 def draw_figure(canvas, figure):
@@ -179,14 +180,42 @@ def graphics2(Sfigure, Pfigure, counterx, countery):
     event, values = window3.read()
     
 # Создаём кнопку запуска программы
-layout = [[sg.Text('Функции программы:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
-          [sg.Text('Программа расчитана на создание четырёхугольников разных форм и рассчёт их площадей и периметров, однако с её помощью можно создавать много чего ещё:', size = (30,5), key = '-text-', font = 'Helvetica 16')],
-          [sg.Text('1. Чтобы создать многоугольник, отличный от четырёхугольника, представьте его в виде нескольких четырёхугольников с общей стороной.', size = (30,5), key = '-text-', font = 'Helvetica 16')],
-          [sg.Text('2. Чтобы найти площадь и периметр объединения или пересечения, представьте объединение или пересечение в виде многоугольника и действуйте по аналогии с п. 1.', size = (30,5), key = '-text-', font = 'Helvetica 16')],
-          [sg.Text('3. Чтобы создать треугольник, представьте его в виде четырёхугольника с 1 развёрнутым углом (Углом равным 180 градусам).', size = (30,5), key = '-text-', font = 'Helvetica 16')],
-          [sg.Button('Старт программы', enable_events=True, key='-FUNCTION-', font='Helvetica 16')]],
-window = sg.Window('Старт', layout, size=(400,600))
-event, values = window.read()
+def start():
+    layout = [[sg.Text('Функции программы:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
+              [sg.Text('Программа расчитана на создание четырёхугольников разных форм и рассчёт их площадей и периметров, однако с её помощью можно создавать много чего ещё:', size = (30,5), key = '-text-', font = 'Helvetica 16')],
+              [sg.Text('1. Чтобы создать многоугольник, отличный от четырёхугольника, представьте его в виде нескольких четырёхугольников с общей стороной.', size = (30,5), key = '-text-', font = 'Helvetica 16')],
+              [sg.Text('2. Чтобы найти площадь и периметр объединения или пересечения, представьте объединение или пересечение в виде многоугольника и действуйте по аналогии с п. 1.', size = (30,5), key = '-text-', font = 'Helvetica 16')],
+              [sg.Text('3. Чтобы создать треугольник, представьте его в виде четырёхугольника с 1 развёрнутым углом (Углом равным 180 градусам).', size = (30,5), key = '-text-', font = 'Helvetica 16')],
+              [sg.Button('Настройки', enable_events=True, key='-Settings-', font='Helvetica 16')],
+              [sg.Button('Старт программы', enable_events=True, key='-FUNCTION-', font='Helvetica 16')]],
+    window = sg.Window('Старт', layout, size=(400,650))
+    event, values = window.read()
+    return event, window
+event, window = start()
+while event != '-FUNCTION-':
+    if event == '-Settings-':
+        window.close()
+        layoutsett = [[sg.Button('Настройки цветов интерфейса', enable_events=True, key='-ISettings-', font='Helvetica 16')],
+                      [sg.Button('Настройки текста', enable_events=True, key='-TSettings-', font='Helvetica 16')]]
+        windowsett = sg.Window('Настройки', layoutsett, size=(400,100))
+        event, values = windowsett.read()
+        if event == '-ISettings-':
+            windowsett.close()
+            ListBox = [sg.Listbox(values = ["По умолчанию", "Тёмная", "Серая", "Белая"], enable_events=True, key='-Themen-', size=(50, 4))]
+            layoutsetti = [ListBox]
+            windowsetti = sg.Window('Настройки', layoutsetti, size=(300,100))
+            event, values = windowsetti.read()
+            if values == "По умолчанию":
+                sg.theme('DarkAmber')
+            if values == "Тёмная":
+                sg.theme('DarkBlack')
+            if values == "Серая":
+                sg.theme('GrayGrayGray')
+            if values == "Белая":
+                sg.theme('Default1')
+            sg.theme(themen)
+            windowsetti.close()
+    event, window = start()
 while True:
 # Если закрыть окно с этой кнопкой, программа прекратит работу
     if event in (sg.WIN_CLOSED, 'Exit'):
