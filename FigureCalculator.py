@@ -1,5 +1,6 @@
 # Требуются библиотеки PySimpleGUI и matplotlib
 counterx, countery, i, j, h = 400, 0, 4, 2, 1
+fontn = 'Helvetica 16'
 import math
 def schyot(x1, y1, x2, y2, x3, y3, x4, y4):
 # Любую фигуру можно представить в виде прямоугольников и треугольников
@@ -87,13 +88,17 @@ def schyot(x1, y1, x2, y2, x3, y3, x4, y4):
             Pfigure /= 2
     Sfigure = abs(S)
     return Sfigure, Pfigure
+
+def change_theme(themen):
+    sg.theme(themen)
+    
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import PySimpleGUI as sg
 matplotlib.use('TkAgg')
 themen = 'DarkAmber'
-sg.theme(themen)
+change_theme(themen)
 fig = matplotlib.figure.Figure(figsize=(4, 3), dpi=100)
 
 def draw_figure(canvas, figure):
@@ -104,16 +109,16 @@ def draw_figure(canvas, figure):
 
 def graphics1():
 # После нажатия на кнопку запуска выволится окно с вводом данных
-    layout1 = [[sg.Text('Введите упорядоченные относительные координаты углов (первая вершина левая нижняя, обход по часовой стрелке):', size=(100, 1), key='-text-', font='Helvetica 16')], 
-              [sg.Text('x1', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x1-', do_not_clear=True)],
-              [sg.Text('y1', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y1-', do_not_clear=True)],
-              [sg.Text('x2', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x2-', do_not_clear=True)],
-              [sg.Text('y2', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y2-', do_not_clear=True)],
-              [sg.Text('x3', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x3-', do_not_clear=True)],
-              [sg.Text('y3', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y3-', do_not_clear=True)],
-              [sg.Text('x4', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x4-', do_not_clear=True)],
-              [sg.Text('y4', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y4-', do_not_clear=True)],
-              [sg.Button('Рассчитать', enable_events=True, key='-G-', font='Helvetica 16')]],
+    layout1 = [[sg.Text('Введите упорядоченные относительные координаты углов (первая вершина левая нижняя, обход по часовой стрелке):', size=(100, 1), key='-text-', font=(fontn, 16))], 
+              [sg.Text('x1', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-x1-', do_not_clear=True)],
+              [sg.Text('y1', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-y1-', do_not_clear=True)],
+              [sg.Text('x2', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-x2-', do_not_clear=True)],
+              [sg.Text('y2', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-y2-', do_not_clear=True)],
+              [sg.Text('x3', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-x3-', do_not_clear=True)],
+              [sg.Text('y3', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-y3-', do_not_clear=True)],
+              [sg.Text('x4', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-x4-', do_not_clear=True)],
+              [sg.Text('y4', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-y4-', do_not_clear=True)],
+              [sg.Button('Рассчитать', enable_events=True, key='-G-', font=(fontn, 16))]],
     window1 = sg.Window('Ввод', layout1, size=(1440,720), location=(475, 290))
     event, values = window1.read()
 
@@ -132,17 +137,17 @@ def graphics1():
 
 def graphics12(x1, x2, x3, x4, y1, y2, y3, y4, x1p, y1p, x2p, y2p):
 # После нажатия на кнопку запуска выволится окно с вводом данных
-    layout1 = [[sg.Text('Введите упорядоченные относительные координаты углов (первая вершина левая нижняя, обход по часовой стрелке):', size=(100, 1), key='-text-', font='Helvetica 16')], 
-              [sg.Text('x1', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x1-', do_not_clear=True)],
-              [sg.Text('y1', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y1-', do_not_clear=True)],
-              [sg.Text('x2', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x2-', do_not_clear=True)],
-              [sg.Text('y2', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y2-', do_not_clear=True)],
-              [sg.Text('x3', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x3-', do_not_clear=True)],
-              [sg.Text('y3', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y3-', do_not_clear=True)],
-              [sg.Text('x4', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-x4-', do_not_clear=True)],
-              [sg.Text('y4', size=(15,1), key='-text-', font='Helvetica 16')], [sg.Input(key='-y4-', do_not_clear=True)],
-              [sg.Button('Рассчитать', enable_events=True, key='-G-', font='Helvetica 16')],
-              [sg.Button('Показать имеющиеся фигуры', enable_events=True, key='-SHOWPLOT-', font='Helvetica 16')]],
+    layout1 = [[sg.Text('Введите упорядоченные относительные координаты углов (первая вершина левая нижняя, обход по часовой стрелке):', size=(100, 1), key='-text-', font=(fontn, 16))], 
+              [sg.Text('x1', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-x1-', do_not_clear=True)],
+              [sg.Text('y1', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-y1-', do_not_clear=True)],
+              [sg.Text('x2', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-x2-', do_not_clear=True)],
+              [sg.Text('y2', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-y2-', do_not_clear=True)],
+              [sg.Text('x3', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-x3-', do_not_clear=True)],
+              [sg.Text('y3', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-y3-', do_not_clear=True)],
+              [sg.Text('x4', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-x4-', do_not_clear=True)],
+              [sg.Text('y4', size=(15,1), key='-text-', font=(fontn, 16))], [sg.Input(key='-y4-', do_not_clear=True)],
+              [sg.Button('Рассчитать', enable_events=True, key='-G-', font=(fontn, 16))],
+              [sg.Button('Показать имеющиеся фигуры', enable_events=True, key='-SHOWPLOT-', font=(fontn, 16))]],
     window1 = sg.Window('Ввод', layout1, size=(1440,720), location=(475, 290))
     event, values = window1.read()
         
@@ -169,11 +174,11 @@ def graphics12(x1, x2, x3, x4, y1, y2, y3, y4, x1p, y1p, x2p, y2p):
 
 def graphics2(Sfigure, Pfigure, counterx, countery):
 # Выводим результат счёта на экран
-    layout3 = [[sg.Text('Площадь новой фигуры равна:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
-              [sg.Text(Sfigure, size = (30,1), key = '-text-', font = 'Helvetica 16')],
-              [sg.Text('Периметр новой фигуры равен:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
-              [sg.Text(Pfigure, size = (30,1), key = '-text-', font = 'Helvetica 16')],
-              [sg.Button('Добавить фигуру', enable_events=True, key='-QW-', font='Helvetica 16')], 
+    layout3 = [[sg.Text('Площадь новой фигуры равна:', size = (30,1), key = '-text-', font = (fontn, 16))],
+              [sg.Text(Sfigure, size = (30,1), key = '-text-', font = (fontn, 16))],
+              [sg.Text('Периметр новой фигуры равен:', size = (30,1), key = '-text-', font = (fontn, 16))],
+              [sg.Text(Pfigure, size = (30,1), key = '-text-', font = (fontn, 16))],
+              [sg.Button('Добавить фигуру', enable_events=True, key='-QW-', font=(fontn, 16))], 
               [sg.Canvas(key='-CANVAS-')]]
     window3 = sg.Window('Результат', layout3, size=(400, 500), location=(counterx, countery), finalize=True)
     tkcanvas = draw_figure(window3['-CANVAS-'].TKCanvas, fig)
@@ -181,40 +186,42 @@ def graphics2(Sfigure, Pfigure, counterx, countery):
     
 # Создаём кнопку запуска программы
 def start():
-    layout = [[sg.Text('Функции программы:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
-              [sg.Text('Программа расчитана на создание четырёхугольников разных форм и рассчёт их площадей и периметров, однако с её помощью можно создавать много чего ещё:', size = (30,5), key = '-text-', font = 'Helvetica 16')],
-              [sg.Text('1. Чтобы создать многоугольник, отличный от четырёхугольника, представьте его в виде нескольких четырёхугольников с общей стороной.', size = (30,5), key = '-text-', font = 'Helvetica 16')],
-              [sg.Text('2. Чтобы найти площадь и периметр объединения или пересечения, представьте объединение или пересечение в виде многоугольника и действуйте по аналогии с п. 1.', size = (30,5), key = '-text-', font = 'Helvetica 16')],
-              [sg.Text('3. Чтобы создать треугольник, представьте его в виде четырёхугольника с 1 развёрнутым углом (Углом равным 180 градусам).', size = (30,5), key = '-text-', font = 'Helvetica 16')],
-              [sg.Button('Настройки', enable_events=True, key='-Settings-', font='Helvetica 16')],
-              [sg.Button('Старт программы', enable_events=True, key='-FUNCTION-', font='Helvetica 16')]],
-    window = sg.Window('Старт', layout, size=(400,650))
+    layout = [[sg.Text('Функции программы:', size = (30,1), key = '-text-', font = (fontn, 16))],
+              [sg.Text('Программа расчитана на создание четырёхугольников разных форм и рассчёт их площадей и периметров, однако с её помощью можно создавать много чего ещё:', size = (30,5), key = '-text-', font = (fontn, 16))],
+              [sg.Text('1. Чтобы создать многоугольник, отличный от четырёхугольника, представьте его в виде нескольких четырёхугольников с общей стороной.', size = (30,5), key = '-text-', font = (fontn, 16))],
+              [sg.Text('2. Чтобы найти площадь и периметр объединения или пересечения, представьте объединение или пересечение в виде многоугольника и действуйте по аналогии с п. 1.', size = (30,5), key = '-text-', font = (fontn, 16))],
+              [sg.Text('3. Чтобы создать треугольник, представьте его в виде четырёхугольника с 1 развёрнутым углом (Углом равным 180 градусам).', size = (30,5), key = '-text-', font = (fontn, 16))],
+              [sg.Button('Настройки', enable_events=True, key='-Settings-', font=(fontn, 16))],
+              [sg.Button('Старт программы', enable_events=True, key='-FUNCTION-', font=(fontn, 16))]],
+    window = sg.Window('Старт', layout, size=(400,750))
     event, values = window.read()
     return event, window
+
 event, window = start()
 while event != '-FUNCTION-':
     if event == '-Settings-':
         window.close()
-        layoutsett = [[sg.Button('Настройки цветов интерфейса', enable_events=True, key='-ISettings-', font='Helvetica 16')],
-                      [sg.Button('Настройки текста', enable_events=True, key='-TSettings-', font='Helvetica 16')]]
+        layoutsett = [[sg.Button('Настройки цветов интерфейса', enable_events=True, key='-ISettings-', font=(fontn, 16))],
+                      [sg.Button('Настройки текста', enable_events=True, key='-TSettings-', font=(fontn, 16))]]
         windowsett = sg.Window('Настройки', layoutsett, size=(400,100))
         event, values = windowsett.read()
         if event == '-ISettings-':
             windowsett.close()
-            ListBox = [sg.Listbox(values = ["По умолчанию", "Тёмная", "Серая", "Белая"], enable_events=True, key='-Themen-', size=(50, 4))]
-            layoutsetti = [ListBox]
-            windowsetti = sg.Window('Настройки', layoutsetti, size=(300,100))
+            windowsetti = sg.Window('Настройки', [[sg.Combo(sg.theme_list(), readonly=True, k='-THEME LIST-'), sg.OK(), sg.Cancel()]], size=(400,100))
             event, values = windowsetti.read()
-            if values == "По умолчанию":
-                sg.theme('DarkAmber')
-            if values == "Тёмная":
-                sg.theme('DarkBlack')
-            if values == "Серая":
-                sg.theme('GrayGrayGray')
-            if values == "Белая":
-                sg.theme('Default1')
-            sg.theme(themen)
+            if event == 'OK':
+                themen = values['-THEME LIST-']
+                change_theme(themen)
             windowsetti.close()
+        if event == '-TSettings-':
+            windowsett.close()
+            windowsettt = sg.Window('Настройки', [[sg.Combo(sg.Text.fonts_installed_list() + ['По умолчанию'], readonly=True, k='-FONT LIST-'), sg.OK(), sg.Cancel()]], size=(400,100))
+            event, values = windowsettt.read()
+            if event == 'OK':
+                fontn = values['-FONT LIST-']
+                if fontn == 'По умолчанию':
+                    fontn = 'Helvetica 16'
+            windowsettt.close()
     event, window = start()
 while True:
 # Если закрыть окно с этой кнопкой, программа прекратит работу
@@ -232,11 +239,11 @@ while True:
         x2p = [x1]
         y2p = [y1]
 # Выводим площадь фигуры и её визуализацию
-        layout2 = [[sg.Text('Площадь фигуры равна:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
-                  [sg.Text(float(Sfigure), size = (30,1), key = '-text-', font = 'Helvetica 16')],
-                  [sg.Text('Периметр фигуры равен:', size = (30,1), key = '-text-', font = 'Helvetica 16')],
-                  [sg.Text(float(Pfigure), size = (30,1), key = '-text-', font = 'Helvetica 16')],
-                  [sg.Button('Добавить фигуру', enable_events=True, key='-Z-', font='Helvetica 16')],
+        layout2 = [[sg.Text('Площадь фигуры равна:', size = (30,1), key = '-text-', font = (fontn, 16))],
+                  [sg.Text(float(Sfigure), size = (30,1), key = '-text-', font = (fontn, 16))],
+                  [sg.Text('Периметр фигуры равен:', size = (30,1), key = '-text-', font = (fontn, 16))],
+                  [sg.Text(float(Pfigure), size = (30,1), key = '-text-', font = (fontn, 16))],
+                  [sg.Button('Добавить фигуру', enable_events=True, key='-Z-', font=(fontn, 16))],
                   [sg.Canvas(key='-CANVAS-')]],
         window2 = sg.Window('Результат', layout2, size=(400, 500), location=(0, 0), finalize=True)
         tkcanvas = draw_figure(window2['-CANVAS-'].TKCanvas, fig)
