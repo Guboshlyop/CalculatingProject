@@ -174,7 +174,7 @@ def graphics12(x1p, y1p, x2p, y2p, fontn, color1, color2, ev1):
         # Создаём визуализацию всех фигур сразу
     if event == '-SHOWPLOT-':
         window1.close()
-        plot1 = plt.plot(x1p, y1p, color1, x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', [x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], color2)
+        plot1 = plt.plot(x1p, y1p, color2, x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', [x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], color2)
         plt.grid()
         plt.show()
     window1.close()
@@ -232,13 +232,13 @@ def settings(event, window, fontn, color1, color2):
             windowsettt.close()
         if event == '-PSettings-':
             windowsett.close()
-            layoutplot = [[sg.Text('Цвет новой фигуры', size = (30,1), key = '-text-', font = (fontn, 16))],
-                          [sg.Combo(['Синий', 'Зелёный', 'Красный', 'Зеленовато-голубой', 'Пурпурный', 'Жёлтый', 'Чёрный'], readonly=True, k='-COLOR LIST1-')],
-                          [sg.Text('Вид линии новой фигуры', size = (30,1), key = '-text-', font = (fontn, 16))],
-                          [sg.Combo(['Сплошная', 'Отрезок с запятой', 'Пунктир'], readonly=True, k='-LINE LIST1-')],
-                          [sg.Text('Цвет предыдущих фигур', size = (30,1), key = '-text-', font = (fontn, 16))],
-                          [sg.Combo(['Синий', 'Зелёный', 'Красный', 'Зеленовато-голубой', 'Пурпурный', 'Жёлтый', 'Чёрный'], readonly=True, k='-COLOR LIST2-')],
+            layoutplot = [[sg.Text('Цвет предыдущих фигур', size = (30,1), key = '-text-', font = (fontn, 16))],
+                          [sg.Combo(['Синий', 'Зелёный', 'Красный', 'Зеленовато-голубой', 'Пурпурный', 'Салатовый', 'Чёрный'], readonly=True, k='-COLOR LIST1-')],
                           [sg.Text('Вид линии предыдущих фигур', size = (30,1), key = '-text-', font = (fontn, 16))],
+                          [sg.Combo(['Сплошная', 'Отрезок с запятой', 'Пунктир'], readonly=True, k='-LINE LIST1-')],
+                          [sg.Text('Цвет новой фигуры', size = (30,1), key = '-text-', font = (fontn, 16))],
+                          [sg.Combo(['Синий', 'Зелёный', 'Красный', 'Зеленовато-голубой', 'Пурпурный', 'Салатовый', 'Чёрный'], readonly=True, k='-COLOR LIST2-')],
+                          [sg.Text('Вид линии новой фигуры', size = (30,1), key = '-text-', font = (fontn, 16))],
                           [sg.Combo(['Сплошная', 'Отрезок с запятой', 'Пунктир'], readonly=True, k='-LINE LIST2-')],
                           [sg.OK(), sg.Cancel()]]
             windowsettp = sg.Window('Настройки', layoutplot, size=(400,330))
@@ -254,7 +254,7 @@ def settings(event, window, fontn, color1, color2):
                     color1 = 'c'
                 if values['-COLOR LIST1-'] == 'Пурпурный':
                     color1 = 'm'
-                if values['-COLOR LIST1-'] == 'Жёлтый':
+                if values['-COLOR LIST1-'] == 'Салатовый':
                     color1 = 'y'
                 if values['-COLOR LIST1-'] == 'Чёрный':
                     color1 = 'k'
@@ -274,7 +274,7 @@ def settings(event, window, fontn, color1, color2):
                     color2 = 'c'
                 if values['-COLOR LIST2-'] == 'Пурпурный':
                     color2 = 'm'
-                if values['-COLOR LIST2-'] == 'Жёлтый':
+                if values['-COLOR LIST2-'] == 'Салатовый':
                     color2 = 'y'
                 if values['-COLOR LIST2-'] == 'Чёрный':
                     color2 = 'k'
@@ -289,6 +289,8 @@ def settings(event, window, fontn, color1, color2):
 
 event, window = start(fontn)
 while event != '-FUNCTION-':
+    if event in (sg.WIN_CLOSED, 'Exit'):
+        break
     fontn, color1, color2, event = settings(event, window, fontn, color1, color2)
     event, window = start(fontn)
 while True:
