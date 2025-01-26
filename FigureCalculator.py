@@ -1,5 +1,6 @@
 # Требуются библиотеки PySimpleGUI и matplotlib
 counterx, countery, i, j, h = 400, 0, 4, 2, 1
+cnumxy = 0
 ev1 = None
 fontn = 'Helvetica'
 color1 = ':k'
@@ -205,6 +206,23 @@ def start(fontn):
     event, values = window.read()
     return event, window
 
+def crossings(curx, cury, x1p, y1p, cnumxy):
+    crossingsl = [0]
+    countcross = 0
+    for g in range(0, cnumxy + 1, 5):
+        for i in range(0, 4):
+            for cur in range(0, 4):
+                if curx[cur]+x1p[g+i+1]-curx[cur+1]-x1p[g+i] != 0:
+                    x = ((curx[cur]*x1p[g+i+1])-(curx[cur+1]*x1p[g+i]))/(curx[cur]+x1p[g+i+1]-curx[cur+1]-x1p[g+i])
+                    y = ((cury[cur]*y1p[g+i+1])-(cury[cur+1]*y1p[g+i]))/(cury[cur]+y1p[g+i+1]-cury[cur+1]-y1p[g+i])
+                    if curx[cur+1] > x > curx[cur] or curx[cur] > x > curx[cur+1]:
+                        if x1p[g+i+1] > x > x1p[g+i] or x1p[g+i] > x > x1p[g+i+1]:
+                            if cury[cur+1] > y > cury[cur] or cury[cur] > y > cury[cur+1]:
+                                if y1p[g+i+1] > y > y1p[g+i] or y1p[g+i] > y > y1p[g+i+1]:
+                                    crossingsl += ['(', x, ';', y, ')']
+                                    countcross += 1
+    return crossingsl, countcross
+
 def settings(event, window, fontn, color1, color2):
     window.close()
     if event == '-Settings-':
@@ -338,6 +356,12 @@ while True:
             fig.add_subplot(111).plot(x1p, y1p, color1, x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', [x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], color2)
             x1p += [x1, x2, x3, x4, x1]
             y1p += [y1, y2, y3, y4, y1]
+            curx = [x1, x2, x3, x4, x1]
+            cury = [y1, y2, y3, y4, y1]
+            cnumxy += 5
+            crossingsl, countcross = crossings(curx, cury, x1p, y1p, cnumxy)
+            for number in range(1, countcross + 2):
+                print(crossingsl[number], end = ' ')
             graphics2(Sfigure, Pfigure, counterx, countery, fontn)
             # Изменим местоположение окон, чтобы от части избежать наложения
             counterx += 400
