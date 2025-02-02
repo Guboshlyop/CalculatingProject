@@ -207,20 +207,21 @@ def start(fontn):
     return event, window
 
 def crossings(x1p, y1p, cnumxy):
-    crossingsl = [0]
+    crossingsl = []
     countcross = 0
     for g in range(0, 4):
-        for i in range(0, cnumxy):
-            if x1p[i]+x1p[cnumxy+g]-x1p[i+1]-x1p[cnumxy+g+1] != 0:
-                if y1p[i]+y1p[cnumxy+g]-y1p[i+1]-y1p[cnumxy+g+1] != 0:
-                    x = ((x1p[i]*x1p[cnumxy+g])-(x1p[i+1]*x1p[cnumxy+g+1]))/(x1p[i]+x1p[cnumxy+g]-x1p[i+1]-x1p[cnumxy+g+1])
-                    y = ((y1p[i]*y1p[cnumxy+g])-(y1p[i+1]*y1p[cnumxy+g+1]))/(y1p[i]+y1p[cnumxy+g]-y1p[i+1]-y1p[cnumxy+g+1])
-                    if (x1p[i] > x > x1p[i+1]) or (x1p[i+1] > x > x1p[i]):
-                        if (x1p[cnumxy+g+1] > x > x1p[cnumxy+g]) or (x1p[cnumxy+g] > x > x1p[cnumxy+g+1]):
-                            if (y1p[i] > y > y1p[i+1]) or (y1p[i+1] > y > y1p[i]):
-                                if (y1p[cnumxy+g+1] > y > y1p[cnumxy+g]) or (y1p[cnumxy+g] > y > y1p[cnumxy+g+1]):
-                                    crossingsl += ['(', x, ';', y, ')']
-                                    countcross += 1
+        for i in range(0, cnumxy-1):
+            A1 = y1p[i+1]-y1p[i]
+            A2 = y1p[cnumxy+g+1]-y1p[cnumxy+g]
+            B1 = -(x1p[i+1]-x1p[i])
+            B2 = -(x1p[cnumxy+g+1]-x1p[cnumxy+g])
+            C1 = -((x1p[i]*y1p[i+1])-(x1p[i+1]*y1p[i]))
+            C2 = -((x1p[cnumxy+g]*y1p[cnumxy+g+1])-(x1p[cnumxy+g+1]*y1p[cnumxy+g]))
+            if A1*B2-A2*B1 != 0:
+                x = -(C1*B2-C2*B1)/(A1*B2-A2*B1)
+                y = -(A1*C2-A2*C1)/(A1*B2-A2*B1)
+                crossingsl += ['(', x, ';', y, ')']
+                countcross += 1
     return crossingsl, countcross
 
 def settings(event, window, fontn, color1, color2):
@@ -358,10 +359,11 @@ while True:
             y1p += [y1, y2, y3, y4, y1]
             cnumxy += 5
             crossingsl, countcross = crossings(x1p, y1p, cnumxy)
-            for qwqw in range(1, countcross + 1):
-                for wsws in range(0, 5):
-                    print(crossingsl[qwqw + wsws], end=' ')
-                print(',')
+            if countcross != 0:
+                for qwqw in range(0, countcross + 1, 5):
+                    for wsws in range(0, 5):
+                        print(crossingsl[qwqw + wsws], end=' ')
+                    print(',')
             graphics2(Sfigure, Pfigure, counterx, countery, fontn)
             # Изменим местоположение окон, чтобы от части избежать наложения
             counterx += 400
