@@ -210,18 +210,25 @@ def crossings(x1p, y1p, cnumxy):
     crossingsl = []
     countcross = 0
     for g in range(0, 4):
-        for i in range(0, cnumxy-1):
-            A1 = y1p[i+1]-y1p[i]
-            A2 = y1p[cnumxy+g+1]-y1p[cnumxy+g]
-            B1 = -(x1p[i+1]-x1p[i])
-            B2 = -(x1p[cnumxy+g+1]-x1p[cnumxy+g])
-            C1 = -((x1p[i]*y1p[i+1])-(x1p[i+1]*y1p[i]))
-            C2 = -((x1p[cnumxy+g]*y1p[cnumxy+g+1])-(x1p[cnumxy+g+1]*y1p[cnumxy+g]))
-            if A1*B2-A2*B1 != 0:
-                x = -(C1*B2-C2*B1)/(A1*B2-A2*B1)
-                y = -(A1*C2-A2*C1)/(A1*B2-A2*B1)
-                crossingsl += ['(', x, ';', y, ')']
-                countcross += 1
+        for i in range(0, cnumxy, 5):
+            for f in range(0, 4):
+                A1 = y1p[f+i+1]-y1p[f+i]
+                A2 = y1p[cnumxy+g+1]-y1p[cnumxy+g]
+                B1 = -(x1p[f+i+1]-x1p[f+i])
+                B2 = -(x1p[cnumxy+g+1]-x1p[cnumxy+g])
+                C1 = -((x1p[f+i]*y1p[f+i+1])-(x1p[f+i+1]*y1p[f+i]))
+                C2 = -((x1p[cnumxy+g]*y1p[cnumxy+g+1])-(x1p[cnumxy+g+1]*y1p[cnumxy+g]))
+                if A1*B2-A2*B1 != 0:
+                    if (A1*B2 - B1*A2 != 0) and (A1*C2 - A2*C1 != 0) and (C1*B2 - B1*C2 != 0):
+                        if A1*A2 + B1*B2 != 0:
+                            x = -(C1*B2-C2*B1)/(A1*B2-A2*B1)
+                            y = -(A1*C2-A2*C1)/(A1*B2-A2*B1)
+                            if abs(y-y1p[f+i]) + abs(y-y1p[f+i+1]) == abs(y1p[f+i]-y1p[f+i+1]):
+                                if abs(x-x1p[f+i]) + abs(x-x1p[f+i+1]) == abs(x1p[f+i]-x1p[f+i+1]):
+                                    if abs(y-y1p[cnumxy+g]) + abs(y-y1p[cnumxy+g+1]) == abs(y1p[cnumxy+g]-y1p[cnumxy+g+1]):
+                                        if abs(x-x1p[cnumxy+g]) + abs(x-x1p[cnumxy+g+1]) == abs(x1p[cnumxy+g]-x1p[cnumxy+g+1]):
+                                            crossingsl += ['(', x, ';', y, ')']
+                                            countcross += 1
     return crossingsl, countcross
 
 def settings(event, window, fontn, color1, color2):
