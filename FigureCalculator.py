@@ -209,26 +209,25 @@ def start(fontn):
 def crossings(x1p, y1p, cnumxy):
     crossingsl = []
     countcross = 0
-    for g in range(0, 4):
+    for g in range(0, 4, 1):
+        A2 = y1p[cnumxy+g+1]-y1p[cnumxy+g]
+        B2 = -(x1p[cnumxy+g+1]-x1p[cnumxy+g])
+        C2 = -((x1p[cnumxy+g]*y1p[cnumxy+g+1])-(x1p[cnumxy+g+1]*y1p[cnumxy+g]))
         for i in range(0, cnumxy, 5):
-            for f in range(0, 4):
+            for f in range(0, 4, 1):
                 A1 = y1p[f+i+1]-y1p[f+i]
-                A2 = y1p[cnumxy+g+1]-y1p[cnumxy+g]
                 B1 = -(x1p[f+i+1]-x1p[f+i])
-                B2 = -(x1p[cnumxy+g+1]-x1p[cnumxy+g])
-                C1 = -((x1p[f+i]*y1p[f+i+1])-(x1p[f+i+1]*y1p[f+i]))
-                C2 = -((x1p[cnumxy+g]*y1p[cnumxy+g+1])-(x1p[cnumxy+g+1]*y1p[cnumxy+g]))
+                C1 = -(x1p[f+i]*y1p[f+i+1])+(x1p[f+i+1]*y1p[f+i])
                 if A1*B2-A2*B1 != 0:
                     if (A1*B2 - B1*A2 != 0) and (A1*C2 - A2*C1 != 0) and (C1*B2 - B1*C2 != 0):
-                        if A1*A2 + B1*B2 != 0:
-                            x = -(C1*B2-C2*B1)/(A1*B2-A2*B1)
-                            y = -(A1*C2-A2*C1)/(A1*B2-A2*B1)
-                            if abs(y-y1p[f+i]) + abs(y-y1p[f+i+1]) == abs(y1p[f+i]-y1p[f+i+1]):
-                                if abs(x-x1p[f+i]) + abs(x-x1p[f+i+1]) == abs(x1p[f+i]-x1p[f+i+1]):
-                                    if abs(y-y1p[cnumxy+g]) + abs(y-y1p[cnumxy+g+1]) == abs(y1p[cnumxy+g]-y1p[cnumxy+g+1]):
-                                        if abs(x-x1p[cnumxy+g]) + abs(x-x1p[cnumxy+g+1]) == abs(x1p[cnumxy+g]-x1p[cnumxy+g+1]):
-                                            crossingsl += ['(', x, ';', y, ')']
-                                            countcross += 1
+                        x = -(C1*B2-C2*B1)/(A1*B2-A2*B1)
+                        y = -(A1*C2-A2*C1)/(A1*B2-A2*B1)
+                        if abs(y-y1p[f+i]) + abs(y-y1p[f+i+1]) == abs(y1p[f+i]-y1p[f+i+1]):
+                            if abs(x-x1p[f+i]) + abs(x-x1p[f+i+1]) == abs(x1p[f+i]-x1p[f+i+1]):
+                                if abs(y-y1p[cnumxy+g]) + abs(y-y1p[cnumxy+g+1]) == abs(y1p[cnumxy+g]-y1p[cnumxy+g+1]):
+                                    if abs(x-x1p[cnumxy+g]) + abs(x-x1p[cnumxy+g+1]) == abs(x1p[cnumxy+g]-x1p[cnumxy+g+1]):
+                                        crossingsl += ['(', x, ';', y, ')']
+                                        countcross += 1
     return crossingsl, countcross
 
 def settings(event, window, fontn, color1, color2):
@@ -367,10 +366,10 @@ while True:
             cnumxy += 5
             crossingsl, countcross = crossings(x1p, y1p, cnumxy)
             if countcross != 0:
-                for qwqw in range(0, countcross + 1, 5):
-                    for wsws in range(0, 5):
-                        print(crossingsl[qwqw + wsws], end=' ')
-                    print(',')
+                for qwqw in range(0, countcross):
+                    for wqwq in range(0, 5):
+                        print(crossingsl[5*qwqw + wqwq], end=' ')
+                    print()
             graphics2(Sfigure, Pfigure, counterx, countery, fontn)
             # Изменим местоположение окон, чтобы от части избежать наложения
             counterx += 400
