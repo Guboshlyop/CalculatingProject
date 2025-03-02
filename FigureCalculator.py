@@ -98,9 +98,6 @@ def schyot(x1, y1, x2, y2, x3, y3, x4, y4):
 
 def change_theme(themen):
     sg.theme(themen)
-
-def oddwinclose(window):
-    window.close()
     
 import matplotlib
 import matplotlib.pyplot as plt
@@ -144,8 +141,9 @@ def crosswin(crossingslx, crossingsly, countcross):
     layoutcross = [[sg.Text('Пересечения фигур:', size = (30,1), key = '-text-', font = (fontn, 16))]]
     for i in range(0, countcross):
         layoutcross += [[sg.Text('(', key = '-text-', font = (fontn, 20)), sg.Text(crossingslx[i], key = '-text-', font = (fontn, 20)), sg.Text(';', key = '-text-', font = (fontn, 20)), sg.Text(crossingsly[i], key = '-text-', font = (fontn, 20)), sg.Text(')', key = '-text-', font = (fontn, 20))]]
+    layoutcross += [[sg.Text('Закройте это окно, когда вам нужно будет продолжить работу', key = '-text-', font = (fontn, 16))]]
     y = countcross*44
-    windowcross = sg.Window('Пересечения', layoutcross, size=(800, 50 + y), location=(475, 290))
+    windowcross = sg.Window('Пересечения', layoutcross, size=(840, 100 + y), location=(475, 290))
     event, values = windowcross.read()
 
 def settings(event, window, fontn, color1, color2):
@@ -233,68 +231,48 @@ def graphics1(fontn, color1, color2, ev1):
     ev1 = None
 # После нажатия на кнопку запуска выволится окно с вводом данных
     layout1 = [[sg.Text('Введите упорядоченные относительные координаты углов (первая вершина левая нижняя, обход по часовой стрелке):', size=(50, 2), key='-text-', font=(fontn, 16))], 
-              [sg.Text('x1:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-x1-', do_not_clear=True)],
-              [sg.Text('y1:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-y1-', do_not_clear=True)],
-              [sg.Text('x2:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-x2-', do_not_clear=True)],
-              [sg.Text('y2:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-y2-', do_not_clear=True)],
-              [sg.Text('x3:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-x3-', do_not_clear=True)],
-              [sg.Text('y3:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-y3-', do_not_clear=True)],
-              [sg.Text('x4:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-x4-', do_not_clear=True)],
-              [sg.Text('y4:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-y4-', do_not_clear=True)],
+              [sg.Text('x1:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-x1-', do_not_clear=True)],
+              [sg.Text('y1:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-y1-', do_not_clear=True)],
+              [sg.Text('x2:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-x2-', do_not_clear=True)],
+              [sg.Text('y2:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-y2-', do_not_clear=True)],
+              [sg.Text('x3:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-x3-', do_not_clear=True)],
+              [sg.Text('y3:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-y3-', do_not_clear=True)],
+              [sg.Text('x4:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-x4-', do_not_clear=True)],
+              [sg.Text('y4:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-y4-', do_not_clear=True)],
               [sg.Button('Рассчитать', enable_events=True, key='-G-', font=(fontn, 16)),
               sg.Button('Настройки', enable_events=True, key='-Settings-', font=(fontn, 16))]],
     window1 = sg.Window('Ввод', layout1, size=(840,400), location=(475, 290))
     event, values = window1.read()
     # Выносим данные из ячеек ввода
-    x1 = float(values['-x1-'])
-    y1 = float(values['-y1-'])
-    x2 = float(values['-x2-'])
-    y2 = float(values['-y2-'])
-    x3 = float(values['-x3-'])
-    y3 = float(values['-y3-'])
-    x4 = float(values['-x4-'])
-    y4 = float(values['-y4-'])
-    if event == '-Settings-':
-        ev1 = 1
-        fontn, color1, color2, event = settings(event, window1, fontn, color1, color2)
-    if event == '-G-':
-        window1.close()
-    return x1, x2, x3, x4, y1, y2, y3, y4, event, fontn, color1, color2, ev1
-
-def graphics12(x1p, y1p, x1d, y1d, x2p, y2p, fontn, color1, color2, ev1, crossingslx, crossingsly, countcross):
-# После нажатия на кнопку запуска выволится окно с вводом данных
-    ev1 = None
-    layout1 = [[sg.Text('Введите упорядоченные относительные координаты углов (первая вершина левая нижняя, обход по часовой стрелке):', size=(50, 2), key='-text-', font=(fontn, 16))], 
-              [sg.Text('x1:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-x1-', do_not_clear=True)],
-              [sg.Text('y1:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-y1-', do_not_clear=True)],
-              [sg.Text('x2:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-x2-', do_not_clear=True)],
-              [sg.Text('y2:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-y2-', do_not_clear=True)],
-              [sg.Text('x3:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-x3-', do_not_clear=True)],
-              [sg.Text('y3:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-y3-', do_not_clear=True)],
-              [sg.Text('x4:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-x4-', do_not_clear=True)],
-              [sg.Text('y4:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0', key='-y4-', do_not_clear=True)],
-              [sg.Button('Рассчитать', enable_events=True, key='-G-', font=(fontn, 16)),
-              sg.Button('Настройки', enable_events=True, key='-Settings-', font=(fontn, 16))],
-              [sg.Button('Показать имеющиеся фигуры', enable_events=True, key='-SHOWPLOT-', font=(fontn, 16)),
-              sg.Button('Показать координаты пересечений', enable_events=True, key='-CROSS-', font=(fontn, 16))]],
-    window1 = sg.Window('Ввод', layout1, size=(840,450), location=(475, 290))
-    event, values = window1.read()
-    # Выносим данные из ячеек ввода
     while event != '-G-':
         event, values = window1.read()
         if event == '-Settings-':
-            event = 0
             ev1 = 1
+            x1 = float(values['-x1-'])
+            y1 = float(values['-y1-'])
+            x2 = float(values['-x2-'])
+            y2 = float(values['-y2-'])
+            x3 = float(values['-x3-'])
+            y3 = float(values['-y3-'])
+            x4 = float(values['-x4-'])
+            y4 = float(values['-y4-'])
             fontn, color1, color2, event = settings(event, window1, fontn, color1, color2)
-            # Создаём визуализацию всех фигур сразу
-        if event == '-SHOWPLOT-':
-            plot1 = plt.plot(x1d, y1d, 'k', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', crossingslx, crossingsly, 'or')
-            plt.grid()
-            plt.show()
+            window1.close()
+            layout1 = [[sg.Text('Введите упорядоченные относительные координаты углов (первая вершина левая нижняя, обход по часовой стрелке):', size=(50, 2), key='-text-', font=(fontn, 16))], 
+                      [sg.Text('x1:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(x1, key='-x1-', do_not_clear=True)],
+                      [sg.Text('y1:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(y1, key='-y1-', do_not_clear=True)],
+                      [sg.Text('x2:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(x2, key='-x2-', do_not_clear=True)],
+                      [sg.Text('y2:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(y2, key='-y2-', do_not_clear=True)],
+                      [sg.Text('x3:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(x3, key='-x3-', do_not_clear=True)],
+                      [sg.Text('y3:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(y3, key='-y3-', do_not_clear=True)],
+                      [sg.Text('x4:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(x4, key='-x4-', do_not_clear=True)],
+                      [sg.Text('y4:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(y4, key='-y4-', do_not_clear=True)],
+                      [sg.Button('Рассчитать', enable_events=True, key='-G-', font=(fontn, 16)),
+                      sg.Button('Настройки', enable_events=True, key='-Settings-', font=(fontn, 16))],
+                      [sg.Button('Показать имеющиеся фигуры', enable_events=True, key='-SHOWPLOT-', font=(fontn, 16)),
+                      sg.Button('Показать координаты пересечений', enable_events=True, key='-CROSS-', font=(fontn, 16))]],
+            window1 = sg.Window('Ввод', layout1, size=(840,450), location=(475, 290))
             event = 0
-        if event == '-CROSS-':
-            event = 0
-            crosswin(crossingslx, crossingsly, countcross)
     x1 = float(values['-x1-'])
     y1 = float(values['-y1-'])
     x2 = float(values['-x2-'])
@@ -306,26 +284,99 @@ def graphics12(x1p, y1p, x1d, y1d, x2p, y2p, fontn, color1, color2, ev1, crossin
     window1.close()
     return x1, x2, x3, x4, y1, y2, y3, y4, event, fontn, color1, color2, ev1
 
-def graphics2(Sfigure, Pfigure, counterx, countery, fontn):
+def graphics12(x1p, y1p, x1d, y1d, x2p, y2p, fontn, color1, color2, ev1, crossingslx, crossingsly, countcross):
+# После нажатия на кнопку запуска выволится окно с вводом данных
+    ev1 = None
+    layout1 = [[sg.Text('Введите упорядоченные относительные координаты углов (первая вершина левая нижняя, обход по часовой стрелке):', size=(50, 2), key='-text-', font=(fontn, 16))], 
+              [sg.Text('x1:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-x1-', do_not_clear=True)],
+              [sg.Text('y1:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-y1-', do_not_clear=True)],
+              [sg.Text('x2:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-x2-', do_not_clear=True)],
+              [sg.Text('y2:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-y2-', do_not_clear=True)],
+              [sg.Text('x3:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-x3-', do_not_clear=True)],
+              [sg.Text('y3:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-y3-', do_not_clear=True)],
+              [sg.Text('x4:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-x4-', do_not_clear=True)],
+              [sg.Text('y4:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input('0.0', key='-y4-', do_not_clear=True)],
+              [sg.Button('Рассчитать', enable_events=True, key='-G-', font=(fontn, 16)),
+              sg.Button('Настройки', enable_events=True, key='-Settings-', font=(fontn, 16))],
+              [sg.Button('Показать имеющиеся фигуры', enable_events=True, key='-SHOWPLOT-', font=(fontn, 16)),
+              sg.Button('Показать координаты пересечений', enable_events=True, key='-CROSS-', font=(fontn, 16))]],
+    window1 = sg.Window('Ввод', layout1, size=(840,450), location=(475, 290))
+    event, values = window1.read()
+    # Выносим данные из ячеек ввода
+    while event != '-G-':
+        event, values = window1.read()
+        if event == '-Settings-':
+            ev1 = 1
+            x1 = float(values['-x1-'])
+            y1 = float(values['-y1-'])
+            x2 = float(values['-x2-'])
+            y2 = float(values['-y2-'])
+            x3 = float(values['-x3-'])
+            y3 = float(values['-y3-'])
+            x4 = float(values['-x4-'])
+            y4 = float(values['-y4-'])
+            fontn, color1, color2, event = settings(event, window1, fontn, color1, color2)
+            window1.close()
+            layout1 = [[sg.Text('Введите упорядоченные относительные координаты углов (первая вершина левая нижняя, обход по часовой стрелке):', size=(50, 2), key='-text-', font=(fontn, 16))], 
+                      [sg.Text('x1:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(x1, key='-x1-', do_not_clear=True)],
+                      [sg.Text('y1:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(y1, key='-y1-', do_not_clear=True)],
+                      [sg.Text('x2:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(x2, key='-x2-', do_not_clear=True)],
+                      [sg.Text('y2:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(y2, key='-y2-', do_not_clear=True)],
+                      [sg.Text('x3:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(x3, key='-x3-', do_not_clear=True)],
+                      [sg.Text('y3:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(y3, key='-y3-', do_not_clear=True)],
+                      [sg.Text('x4:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(x4, key='-x4-', do_not_clear=True)],
+                      [sg.Text('y4:', size=(3,1), key='-text-', font=(fontn, 16)), sg.Input(y4, key='-y4-', do_not_clear=True)],
+                      [sg.Button('Рассчитать', enable_events=True, key='-G-', font=(fontn, 16)),
+                      sg.Button('Настройки', enable_events=True, key='-Settings-', font=(fontn, 16))],
+                      [sg.Button('Показать имеющиеся фигуры', enable_events=True, key='-SHOWPLOT-', font=(fontn, 16)),
+                      sg.Button('Показать координаты пересечений', enable_events=True, key='-CROSS-', font=(fontn, 16))]],
+            window1 = sg.Window('Ввод', layout1, size=(840,450), location=(475, 290))
+            event = 0
+            # Создаём визуализацию всех фигур сразу
+        if event == '-SHOWPLOT-':
+            plot1 = plt.plot(x1d, y1d, 'k', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', x2p, y2p, '-w', crossingslx, crossingsly, 'or')
+            plt.grid()
+            plt.show()
+            event = 0
+        if event == '-CROSS-':
+            crosswin(crossingslx, crossingsly, countcross)
+            event = 0
+    x1 = float(values['-x1-'])
+    y1 = float(values['-y1-'])
+    x2 = float(values['-x2-'])
+    y2 = float(values['-y2-'])
+    x3 = float(values['-x3-'])
+    y3 = float(values['-y3-'])
+    x4 = float(values['-x4-'])
+    y4 = float(values['-y4-'])
+    window1.close()
+    return x1, x2, x3, x4, y1, y2, y3, y4, event, fontn, color1, color2, ev1
+
+def graphics2(Sfigure, Pfigure, counterx, countery, fontn, crossingslx, crossingsly, countcross):
 # Выводим результат счёта на экран
     layout3 = [[sg.Text('Площадь новой фигуры равна:', size = (30,1), key = '-text-', font = (fontn, 16))],
               [sg.Text(Sfigure, size = (30,1), key = '-text-', font = (fontn, 16))],
               [sg.Text('Периметр новой фигуры равен:', size = (30,1), key = '-text-', font = (fontn, 16))],
               [sg.Text(Pfigure, size = (30,1), key = '-text-', font = (fontn, 16))],
-              [sg.Button('Добавить фигуру', enable_events=True, key='-QW-', font=(fontn, 16))],
+              [sg.Button('Добавить фигуру', enable_events=True, key='-QW-', font=(fontn, 16))], [sg.Button('Показать координаты пересечений', enable_events=True, key='-CROSS-', font=(fontn, 16))],
               [sg.Canvas(key='-CANVAS-')]]
-    window3 = sg.Window('Результат', layout3, size=(400, 500), location=(0, 0), finalize=True)
+    window3 = sg.Window('Результат', layout3, size=(400, 550), location=(0, 0), finalize=True)
     tkcanvas = draw_figure(window3['-CANVAS-'].TKCanvas, fig)
     event, values = window3.read()
+    while event != '-QW-':
+        event, values = window3.read()
+        if event == '-CROSS-':
+            event = 0
+            crosswin(crossingslx, crossingsly, countcross)
     return window3
 
 # Создаём кнопку запуска программы
 def start(fontn):
     layout = [[sg.Text('Функции программы:', size = (30,1), key = '-text-', font = (fontn, 16))],
-              [sg.Text('Программа расчитана на создание четырёхугольников разных форм и рассчёт их площадей и периметров, однако с её помощью можно создавать много чего ещё:', size = (30,5), key = '-text-', font = (fontn, 16))],
+              [sg.Text('Программа расчитана на создание четырёхугольников разных форм и рассчёт их площадей, периметров и координат пересечения сторон, однако с её помощью можно создавать много чего ещё:', size = (30,6), key = '-text-', font = (fontn, 16))],
               [sg.Text('1. Чтобы создать многоугольник, отличный от четырёхугольника, представьте его в виде нескольких четырёхугольников с общей стороной.', size = (30,5), key = '-text-', font = (fontn, 16))],
               [sg.Text('2. Чтобы найти площадь и периметр объединения или пересечения, представьте объединение или пересечение в виде многоугольника и действуйте по аналогии с п. 1.', size = (30,5), key = '-text-', font = (fontn, 16))],
-              [sg.Text('3. Чтобы создать треугольник, представьте его в виде четырёхугольника с 1 развёрнутым углом (Углом равным 180 градусам).', size = (30,5), key = '-text-', font = (fontn, 16))],
+              [sg.Text('3. Чтобы создать треугольник, представьте его в виде четырёхугольника с 1 развёрнутым углом (Углом равным 180 градусам) или укажите 2 соседним вершинам одинаковые координаты.', size = (30,6), key = '-text-', font = (fontn, 16))],
               [sg.Button('Настройки', enable_events=True, key='-Settings-', font=(fontn, 16))],
               [sg.Button('Старт программы', enable_events=True, key='-FUNCTION-', font=(fontn, 16))]],
     window = sg.Window('Старт', layout, size=(400,750))
@@ -337,6 +388,7 @@ while event != '-FUNCTION-':
     if event in (sg.WIN_CLOSED, 'Exit'):
         break
     fontn, color1, color2, event = settings(event, window, fontn, color1, color2)
+    window.close()
     event, window = start(fontn)
 while True:
 # Если закрыть окно с этой кнопкой, программа прекратит работу
@@ -384,7 +436,7 @@ while True:
             x1d += [x1, x2, x3, x4, x1]
             y1d += [y1, y2, y3, y4, y1]
             window2.close()
-            window2 = graphics2(Sfigure, Pfigure, counterx, countery, fontn)
+            window2 = graphics2(Sfigure, Pfigure, counterx, countery, fontn, crossingslx, crossingsly, countcross)
             # Избавимся от связок между двумя фигурами на визуализации
             if x1p[i] == x1p[i + 2] and y1p[i] == y1p[i + 2]:
                 exc += 0
